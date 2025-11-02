@@ -4,7 +4,6 @@ hide: [navigation, toc]
 
 <!-- ==================== SCRIPTS ==================== -->
 <script>
-  // Flag this page as 'home' (used by CSS)
   document.documentElement.classList.add('home-page');
 
   // Align hero to header grid left edge
@@ -18,95 +17,116 @@ hide: [navigation, toc]
     alignHeroToHeader();
     window.addEventListener('load', alignHeroToHeader);
     window.addEventListener('resize', alignHeroToHeader);
-    requestAnimationFrame(alignHeroToHeader);
-    setTimeout(alignHeroToHeader, 50);
-    setTimeout(alignHeroToHeader, 250);
   })();
 
-  // ---------- Parallax background (mouse move) ----------
+  // ---------- Floating particle field ----------
   (function () {
-    const html = document.documentElement;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (reduce) {
-      html.style.setProperty('--bg-x', '50%');
-      html.style.setProperty('--bg-y', '50%');
-      return;
-    }
-    let targetX = 50, targetY = 50;
-    let posX = 50, posY = 50;
-    const ease = 0.08;
+    const canvas = document.createElement('canvas');
+    canvas.classList.add('particle-layer');
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext('2d');
 
-    function onMove(e) {
-      const w = window.innerWidth || 1;
-      const h = window.innerHeight || 1;
-      const mx = e.clientX / w;
-      const my = e.clientY / h;
-      targetX = 50 + (mx - 0.5) * 8; // horizontal range
-      targetY = 50 + (my - 0.5) * 5; // vertical range
-    }
+    const DPR           = Math.min(window.devicePixelRatio || 1, 2);
+    const COUNT_DESKTOP = 150;
+    const COUNT_MOBILE  = 75;
+    const COLOR         = 'rgba(255, 255, 255, 0.28)';
+    const R_MIN         = 1;
+    const R_MAX         = 3;
+    const SPEED_BASE    = 0.50;
+    const NOISE         = 0.0135;
+    const FRICTION      = 0.995;
+    const MAX_SPEED     = 0.8;
+    const REPULSE_R     = 180;
+    const REPULSE_FORCE = 0.55;
+    const BURST_FORCE   = 1.45;
+    const BURST_DECAY   = 0.95;
 
-    function raf() {
-      posX += (targetX - posX) * ease;
-      posY += (targetY - posY) * ease;
-      html.style.setProperty('--bg-x', posX.toFixed(2) + '%');
-      html.style.setProperty('--bg-y', posY.toFixed(2) + '%');
-      requestAnimationFrame(raf);
-    }
+    let w, h, W, H, particles = [], burst = 0;
+    let mx = -9999, my = -9999;
 
-    html.style.setProperty('--bg-x', '50%');
-    html.style.setProperty('--bg-y', '50%');
-
-    if (html.classList.contains('home-page')) {
-      window.addEventListener('mousemove', onMove, { passive: true });
-      requestAnimationFrame(raf);
-    }
-  })();
-
-  // ---------- Cursor spotlight (darkens outside area) ----------
-  (function () {
-    const html = document.documentElement;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    // compute a sensible spotlight radius based on viewport
-    function computeR() {
-      return Math.min(240, Math.max(140, Math.floor(Math.min(innerWidth, innerHeight) * 0.18)));
-    }
-    html.style.setProperty('--r', computeR() + 'px');
-
-    let tx = innerWidth / 2, ty = innerHeight / 2;
-    let x = tx, y = ty;
-    const ease = 0.12;
-
-    function onMove(e) {
-      tx = e.clientX;
-      ty = e.clientY;
+    function isMobile() {
+      return window.matchMedia('(max-width: 768px)').matches;
     }
 
-    function tick() {
-      x += (tx - x) * ease;
-      y += (ty - y) * ease;
-      html.style.setProperty('--mx', x.toFixed(1) + 'px');
-      html.style.setProperty('--my', y.toFixed(1) + 'px');
-      requestAnimationFrame(tick);
-    }
+    function resize() {
+      w = window.innerWidth;
+      h = window.innerHeight;
+      W = Math.floor(w * DPR);
+      H = Math.floor(h * DPR);
+      canvas.width = W;
+      canvas.height = H;
+      canvas.style.width = w + 'px';
+      canvas.style.height = h + 'px';
 
-    if (!reduce && html.classList.contains('home-page')) {
-      window.addEventListener('mousemove', onMove, { passive: true });
-      requestAnimationFrame(tick);
-    } else {
-      html.style.setProperty('--mx', '50%');
-      html.style.setProperty('--my', '50%');
+      const COUNT = (isMobile() ? COUNT_MOBILE : COUNT_DESKTOP);
+      particles = Array.from({ length: COUNT }, () => ({
+        x : Math.random() * w,
+        y : Math.random() * h,
+        vx: (Math.random() - 0.5) * SPEED_BASE,
+        vy: (Math.random() - 0.5) * SPEED_BASE,
+        r : R_MIN + Math.random() * (R_MAX - R_MIN)
+      }));
     }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
 
-    window.addEventListener('resize', () => {
-      html.style.setProperty('--r', computeR() + 'px');
+    window.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    window.addEventListener('mouseleave', () => { mx = -9999; my = -9999; }, { passive: true });
+    window.addEventListener('mousedown', () => { burst = BURST_FORCE; });
+    window.addEventListener('touchstart', e => {
+      if (e.touches && e.touches[0]) { mx = e.touches[0].clientX; my = e.touches[0].clientY; }
+      burst = BURST_FORCE;
     }, { passive: true });
+
+    function step() {
+      ctx.clearRect(0, 0, W, H);
+
+      for (const p of particles) {
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const d2 = dx*dx + dy*dy;
+
+        if (d2 < REPULSE_R * REPULSE_R) {
+          const d = Math.sqrt(d2) || 0.0001;
+          const push = (REPULSE_FORCE + burst) * (1 - d / REPULSE_R);
+          p.vx += (dx / d) * push * 0.08;
+          p.vy += (dy / d) * push * 0.08;
+        }
+
+        p.vx += (Math.random() - 0.5) * NOISE;
+        p.vy += (Math.random() - 0.5) * NOISE;
+
+        const sp2 = p.vx*p.vx + p.vy*p.vy;
+        if (sp2 > MAX_SPEED*MAX_SPEED) {
+          const s = Math.sqrt(sp2);
+          p.vx = (p.vx / s) * MAX_SPEED;
+          p.vy = (p.vy / s) * MAX_SPEED;
+        }
+
+        p.x += p.vx;
+        p.y += p.vy;
+        p.vx *= FRICTION;
+        p.vy *= FRICTION;
+
+        if (p.x < 0) p.x += w; else if (p.x > w) p.x -= w;
+        if (p.y < 0) p.y += h; else if (p.y > h) p.y -= h;
+
+        ctx.beginPath();
+        ctx.arc(p.x * DPR, p.y * DPR, p.r * DPR, 0, Math.PI * 2);
+        ctx.fillStyle = COLOR;
+        ctx.fill();
+      }
+
+      if (burst > 0.001) burst *= BURST_DECAY; else burst = 0;
+
+      requestAnimationFrame(step);
+    }
+    step();
   })();
 </script>
 
 <!-- ==================== STYLES ==================== -->
 <style>
-/* Transparent header on home */
 html.home-page .md-header,
 html.home-page .md-header__inner,
 html.home-page .md-tabs,
@@ -116,55 +136,48 @@ html.home-page .md-tabs__list {
   box-shadow: none !important;
 }
 
-/* Search bar: transparent glass + 8px radius; icon half size; color #C4CAD1 */
+/* Search bar */
 html.home-page .md-search__form {
   background: rgba(255,255,255,.15) !important;
   border-radius: 8px !important;
   border: none !important;
-  transition: background-color .3s ease;
-}
-html.home-page .md-search__form:hover,
-html.home-page .md-search__form:focus-within {
-  background: rgba(255,255,255,.25) !important;
 }
 html.home-page .md-search__input,
-html.home-page .md-search__icon {
-  color: #C4CAD1 !important;
+html.home-page .md-search__icon { color: #C4CAD1 !important; }
+html.home-page .md-search__icon { transform: scale(.5); }
+
+/* Hide auto H1 */
+html.home-page .md-content__inner h1:first-of-type {
+  opacity:0 !important;
+  visibility:hidden !important;
 }
-html.home-page .md-search__icon { transform: scale(.5); transform-origin: center; }
 
-/* Hide automatic "Home" H1 */
-html.home-page .md-content__inner h1:first-of-type { opacity:0 !important; visibility:hidden !important; }
-
-/* ========== FULL-SCREEN BACKGROUND LAYERS ========== */
-/* Image layer (below spotlight) */
+/* Background layers */
 html.home-page::before {
   content: "";
   position: fixed;
   inset: 0;
   background: url("/assets/home-bg.png") center/cover no-repeat;
-  background-position: var(--bg-x, 50%) var(--bg-y, 50%);
-  z-index: -2;
-  will-change: background-position;
+  z-index: -4;
 }
-
-/* Spotlight overlay (hole around cursor, darker elsewhere) */
 html.home-page::after {
   content: "";
   position: fixed;
   inset: 0;
+  z-index: -3;
+  background: linear-gradient(to right, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%);
   pointer-events: none;
-  z-index: -1;
-  background:
-    radial-gradient(
-      circle at var(--mx, 50%) var(--my, 50%),
-      rgba(0,0,0,0) 0,
-      rgba(0,0,0,0) var(--r, 160px),
-      rgba(0,0,0,.45) calc(var(--r, 160px) + 1px)
-    );
 }
 
-/* ========== HERO ========== */
+/* Particles */
+canvas.particle-layer {
+  position: fixed;
+  inset: 0;
+  z-index: -2;
+  pointer-events: none;
+}
+
+/* Hero */
 html.home-page .home-hero {
   position: fixed;
   left: var(--hero-left, 24px);
@@ -172,51 +185,130 @@ html.home-page .home-hero {
   max-width: 70ch;
   color: #fff;
   text-shadow: 0 3px 8px rgba(0,0,0,.45);
-  z-index: 0;
 }
+
+/* Floating title animation */
+@keyframes floatWord {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+html.home-page .float-word {
+  display: inline-block;
+  animation: floatWord 5s ease-in-out infinite;
+}
+html.home-page .float-word:nth-child(1){animation-delay:0s;}
+html.home-page .float-word:nth-child(2){animation-delay:.9s;}
+html.home-page .float-word:nth-child(3){animation-delay:1.8s;}
+html.home-page .float-word:nth-child(4){animation-delay:.5s;}
+
+/* Title */
 html.home-page .home-hero h2 {
-  margin: 0 0 .5rem 0; font-weight: 700; font-size: 1.75rem;
+  margin: 0 0 .5rem 0;
+  font-weight: 700;
+  font-size: 1.75rem;
+  color: #e7f694ff !important;
 }
+
+/* Subheading */
 html.home-page .home-hero h3 {
-  margin: .25rem 0 0 0; font-weight: 400; opacity: .9; font-size: 1.15rem; line-height: 1.5;
+  margin: .25rem 0 0 0;
+  font-weight: 400;
+  opacity: .9;
+  font-size: 1.15rem;
+  line-height: 1.5;
 }
 
-/* Buttons */
+/* Stelios link */
+html.home-page .home-hero a {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+html.home-page .home-hero a:hover { color: #14b8a6 !important; }
+
+/* === Buttons === */
 html.home-page .home-hero .buttons {
-  margin-top: 1.75rem; display: flex; gap: 1rem; flex-wrap: wrap;
-}
-html.home-page .home-hero .buttons a {
-  text-decoration: none; font-weight: 700; letter-spacing: .5px;
-  border-radius: 8px; padding: .37rem .83rem;
-  border: 2px solid #14b8a6; color: #fff; background: transparent;
-  transition: background-color .35s ease, transform .25s ease;
-}
-html.home-page .home-hero .buttons a:hover,
-html.home-page .home-hero .buttons a:focus {
-  background: rgba(15,23,42,.75) !important; border-color:#14b8a6 !important; transform: translateY(-1px);
+  margin-top: 1.75rem;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 }
 
-/* Mobile adjustments */
-@media (max-width: 768px) {
-  html.home-page .home-hero { left: 1rem; right: 1rem; bottom: 2rem; }
-  html.home-page .home-hero .buttons { justify-content: center; }
+/* Get Started */
+html.home-page .home-hero .buttons a:first-child {
+  background: oklch(27.7% 0.046 192.524 / 0.95);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: .45rem .95rem;
+  font-weight: 700;
+  transition: all .3s ease;
+}
+html.home-page .home-hero .buttons a:first-child:hover {
+  background: #121827 !important;
+  color: #e7f694ff !important;
+  transform: translateY(-1px);
 }
 
-/* Hide footer on home */
+/* About */
+html.home-page .home-hero .buttons a:last-child {
+  background: transparent;
+  color: oklch(27.7% 0.046 192.524 / 0.95);
+  border: 2px solid oklch(27.7% 0.046 192.524 / 0.95);
+  border-radius: 8px;
+  padding: .45rem .95rem;
+  font-weight: 700;
+  transition: all .3s ease;
+}
+html.home-page .home-hero .buttons a:last-child:hover {
+  background: #121827 !important;
+  color: #e7f694ff !important;
+  transform: translateY(-1px);
+}
+
+/* Ship lights */
+.ship-light {
+  position: fixed;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background:
+    radial-gradient(circle, rgba(255,220,120,0.95) 0%, rgba(255,180,60,0.6) 40%, rgba(255,150,0,0) 70%);
+  box-shadow:
+    0 0 8px rgba(255,190,80,0.9),
+    0 0 16px rgba(255,160,40,0.7),
+    0 0 28px rgba(255,140,0,0.45);
+  animation: thruster 1.6s ease-in-out infinite;
+  transform: translate(-50%, -50%);
+}
+@keyframes thruster {
+  0%,100%{opacity:0.85;transform:translate(-50%,-50%) scale(1.0);}
+  50%{opacity:0.45;transform:translate(-50%,-50%) scale(0.92);}
+}
+.ship-light.one { right: 9.2vw; bottom: 27vh; }
+.ship-light.two { right: 7.3vw; bottom: 28.2vh; animation-delay: .35s; opacity: .85; }
+
 html.home-page .md-footer { display: none !important; }
 </style>
 
-<!-- ==================== HERO CONTENT ==================== -->
+<!-- ==================== HERO ==================== -->
 <div class="home-hero">
-  <h2>Welcome to Developers Lab</h2>
+  <h2>
+    <span class="float-word">Welcome</span>
+    <span class="float-word">to</span>
+    <span class="float-word">Developer's</span>
+    <span class="float-word">Lab</span>
+  </h2>
   <h3>
     Exploring the future of code, cloud, and AI through practical modules and continuous learning, curated by
     <a href="https://www.linkedin.com/in/stelios-sotiriadis/" target="_blank" rel="noopener noreferrer">Stelios</a>.
   </h3>
 
   <div class="buttons">
-    <a class="md-button" href="cloud-computing/welcome/">Cloud Computing</a>
-    <a class="md-button" href="big-data/welcome/">Big Data</a>
+    <a class="md-button" href="cloud-computing/welcome/">Get Started</a>
     <a class="md-button" href="about/">About</a>
   </div>
 </div>
+
+<div class="ship-light one"></div>
+<div class="ship-light two"></div>
