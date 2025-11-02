@@ -165,10 +165,19 @@ html.home-page::after {
   position: fixed;
   inset: 0;
   z-index: -3;
-  background: linear-gradient(to right, rgba(0,0,0,0) 40%, rgba(0,0,0,0.75) 100%);
   pointer-events: none;
+  background:
+    /* NEW: bottom-left vignette to pop hero text */
+    radial-gradient(900px 600px at 14% 82%,
+      rgba(0,0,0,0.70) 0%,
+      rgba(0,0,0,0.60) 35%,
+      rgba(0,0,0,0.30) 60%,
+      rgba(0,0,0,0.00) 100%),
+    /* Existing: darken the bright right side */
+    linear-gradient(to right,
+      rgba(0,0,0,0.00) 40%,
+      rgba(0,0,0,0.75) 100%);
 }
-
 /* Particles */
 canvas.particle-layer {
   position: fixed;
@@ -206,7 +215,8 @@ html.home-page .home-hero h2 {
   margin: 0 0 .5rem 0;
   font-weight: 700;
   font-size: 1.75rem;
-  color: #e7f694ff !important;
+  color: #f2f6a0 !important;
+  text-shadow: 2 1px 4px rgba(0,0,0,0.4);
 }
 
 /* Subheading */
@@ -231,6 +241,8 @@ html.home-page .home-hero .buttons {
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+=
 }
 
 /* Get Started */
@@ -242,6 +254,7 @@ html.home-page .home-hero .buttons a:first-child {
   padding: .45rem .95rem;
   font-weight: 700;
   transition: all .3s ease;
+  
 }
 html.home-page .home-hero .buttons a:first-child:hover {
   background: #121827 !important;
@@ -285,8 +298,9 @@ html.home-page .home-hero .buttons a:last-child:hover {
   0%,100%{opacity:0.85;transform:translate(-50%,-50%) scale(1.0);}
   50%{opacity:0.45;transform:translate(-50%,-50%) scale(0.92);}
 }
-.ship-light.one { right: 9.2vw; bottom: 27vh; }
-.ship-light.two { right: 7.3vw; bottom: 28.2vh; animation-delay: .35s; opacity: .85; }
+.ship-light.one { right: 5vw; bottom: 7vh; }
+.ship-light.two { right: 6.5vw; bottom: 5.5vh; animation-delay: .35s; opacity: .85; }
+.ship-light.three { right: 2vw; top: 2vh; animation-delay: .35s; opacity: .1;  animation-duration: 3s; }
 
 html.home-page .md-footer { display: none !important; }
 </style>
@@ -312,3 +326,4 @@ html.home-page .md-footer { display: none !important; }
 
 <div class="ship-light one"></div>
 <div class="ship-light two"></div>
+<div class="ship-light three"></div>
