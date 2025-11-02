@@ -1,9 +1,12 @@
 site_name: My Docs
 theme:
   name: material
+  features:
+    - navigation.tabs        # top tabs
+    - navigation.tabs.sticky # keep them visible on scroll (optional)
 
 nav:
   - Home: index.md
   - About: about.md
-  - ACC: ACC.md
-  - BDA: BDA.md
+  - ACC: acc.md
+  - BDA: bda.md
