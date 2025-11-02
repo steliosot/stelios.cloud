@@ -1,12 +1,47 @@
-site_name: My Docs
+site_name: MyLab
+
 theme:
   name: material
+  logo: assets/logo-stelios.png
+  favicon: assets/logo-stelios.png
   features:
-    - navigation.tabs        # top tabs
-    - navigation.tabs.sticky # keep them visible on scroll (optional)
+    - navigation.tabs
+    - navigation.tabs.sticky
+
+extra_css:
+  - styles/global-font.css
+  - styles/header-bg.css
+  - styles/hero.css
+  - styles/extra.css        # <- LAST so it wins
+
+# Remove if not needed (it can interfere with classes/selectors)
+# extra_javascript:
+#   - styles/home-toggle.js
 
 nav:
   - Home: index.md
+  - Cloud Computing:
+      - Welcome: cloud-computing/welcome.md
+      - Unit 1: cloud-computing/unit-1.md
+      - Unit 2: cloud-computing/unit-2.md
+      - Unit 3: cloud-computing/unit-3.md
+      - Unit 4: cloud-computing/unit-4.md
+      - Unit 5: cloud-computing/unit-5.md
+      - Unit 6: cloud-computing/unit-6.md
+      - Unit 7: cloud-computing/unit-7.md
+      - Unit 8: cloud-computing/unit-8.md
+      - Unit 9: cloud-computing/unit-9.md
+      - Unit 10: cloud-computing/unit-10.md
+  - Big Data:
+      - Welcome: big-data/welcome.md
+      - Unit 1: big-data/unit-1.md
+      - Unit 2: big-data/unit-2.md
+      - Unit 3: big-data/unit-3.md
+      - Unit 4: big-data/unit-4.md
+      - Unit 5: big-data/unit-5.md
+      - Unit 6: big-data/unit-6.md
+      - Unit 7: big-data/unit-7.md
+      - Unit 8: big-data/unit-8.md
+      - Unit 9: big-data/unit-9.md
+      - Unit 10: big-data/unit-10.md
   - About: about.md
-  - ACC: acc.md
-  - BDA: bda.md
