@@ -1,0 +1,41 @@
+/* === Global header background (same on all pages) === */
+.md-header,
+.md-header__inner {
+  background: url("/assets/home-bg.png") center/cover no-repeat fixed !important;
+  background-attachment: fixed;
+  background-size: cover;
+  box-shadow: none !important;
+  position: relative;
+  z-index: 10;
+}
+
+
+/* Tabs/navigation area — unified dark overlay (50% transparency) */
+.md-tabs,
+.md-tabs__inner,
+.md-tabs__list {
+  background: linear-gradient(to top, rgba(15, 23, 42, 0.65) 25%, rgba(15, 23, 42, 0) 100%),
+    url("/assets/home-bg.png") center/cover no-repeat fixed !important;
+  box-shadow: none !important;
+}
+
+/* Keep header text/icons white */
+.md-header__button,
+.md-header__title,
+.md-tabs__link,
+.md-search__icon {
+  color: #ffffff !important;
+}
+
+/* Search field transparency */
+.md-search__form,
+.md-search__input {
+  background: rgba(255, 255, 255, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Optional: soft shadow for depth below header */
+.md-header {
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+}
+

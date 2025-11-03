@@ -9,9 +9,9 @@
   --fab-bottom: 56px;
 }
 
-/* === Force MkDocs Material default text size === */
+/* Apply font scaling to MkDocs main text */
 .md-typeset {
-  font-size: calc(0.8rem * var(--user-font-scale, 1)) !important;
+  font-size: calc(1rem * var(--user-font-scale));
 }
 
 /* === LEFT CLUSTER (Left menu toggle) === */
@@ -302,23 +302,3 @@ html:not(.home-page) .md-footer__title {
   padding-bottom: 2rem;
 }
 
-/* =========================================== */
-/* FORCE NORMAL DEFAULT FONT SIZE EVERYWHERE   */
-/* =========================================== */
-
-:root {
-  --user-font-scale: 1 !important; /* ensure scale starts at 1 */
-}
-
-/* make all typeset areas use Material’s real default (0.8rem) */
-.md-typeset {
-  font-size: calc(0.8rem * var(--user-font-scale)) !important;
-  line-height: 1.6 !important;
-}
-
-/* also correct nav + footer just in case they scaled too */
-.md-nav,
-.md-sidebar,
-.md-footer {
-  font-size: 0.8rem !important;
-}

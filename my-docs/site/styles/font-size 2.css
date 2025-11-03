@@ -1,25 +1,32 @@
+/* =========================================================
+   Font Size Controller (A− / A+)
+   Matches menu toggle button style and lifts above footer
+   ========================================================= */
+
+/* Default font scaling variable */
 :root {
   --user-font-scale: 1;
+  --fab-bottom: 3.5rem;   /* shared offset updated dynamically */
 }
 
 /* Scale main text */
 .md-typeset {
-  font-size: calc(0.8rem * var(--user-font-scale)) !important;
+  font-size: calc(1rem * var(--user-font-scale)) !important;
   line-height: 1.65;
 }
 
 /* === Floating zoom buttons (same size as menu arrow toggle) === */
 .font-buttons {
   position: fixed;
-  bottom: 3.5rem;        /* aligns with menu toggle */
+  bottom: var(--fab-bottom);    /* ✅ lifts automatically above footer */
   right: 1.5rem;
   z-index: 999;
   display: flex;
-  gap: 0.3rem;           /* small space between A- and A+ */
+  gap: 0.3rem;                 /* small space between A- and A+ */
 }
 
 .font-buttons button {
-  background: #0f172a !important;   /* dark navy */
+  background: #0f172a !important;  /* dark navy */
   color: #fff;
   border: none;
   border-radius: 0.35rem;
