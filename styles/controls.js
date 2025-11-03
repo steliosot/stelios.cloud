@@ -29,7 +29,7 @@
   const S = {
     get scale() {
       const v = parseFloat(localStorage.getItem("fontScale"));
-      return Number.isFinite(v) ? v : 1;
+      return Number.isFinite(v) ? v : 0.8;
     },
     set scale(v) {
       const nv = Math.max(MIN_SCALE, Math.min(MAX_SCALE, v));

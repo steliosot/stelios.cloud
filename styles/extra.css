@@ -311,8 +311,8 @@ html:not(.home-page) .md-footer__title {
 
 /* === Inline code (`like this`) === */
 code, .md-typeset code {
-  background-color: #f3f3f3;      /* soft neutral gray for contrast */
-  color: #c7254e;                 /* subtle red tint for inline code */
+  background-color: #eaeaea;      /* soft neutral gray for contrast */
+  color: #191919;                 /* subtle red tint for inline code */
   font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
   font-size: 0.9em;
   border-radius: 4px;
@@ -322,17 +322,11 @@ code, .md-typeset code {
 /* === Fenced code blocks (```...```) === */
 .md-typeset pre > code,
 .md-typeset pre {
-  background-color: #e6e8eb !important; /* darker than page, easy on eyes */
-  color: #2d2d2d;                       /* high readability on light bg */
+  background-color: #eaeaea !important; /* slightly darker than page */
+  color: #191919;                       /* high readability */
   font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
   font-size: 0.95em;
   line-height: 1.5;
   border-radius: 6px;
-  padding: 1em 1.2em;
-  overflow-x: auto;
-}
-
-/* === Optional: subtle border for definition === */
-.md-typeset pre {
-  border: 1px solid #d8d8d8;
+  padding: 0.6em 0.6em;
 }
