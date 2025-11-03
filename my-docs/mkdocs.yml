@@ -10,6 +10,25 @@ theme:
     - content.code.copy        # copy button on code blocks
     - navigation.top           # quick back-to-top
     - navigation.footer        # nicer prev/next footer
+    - palette.toggle           # ✅ enable light/dark toggle
+
+  # ✅ Light/Dark palettes (auto-detect + toggle)
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: pink
+      toggle:
+        icon: material/weather-night
+        name: Switch to dark mode
+
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: pink
+      toggle:
+        icon: material/weather-sunny
+        name: Switch to light mode
 
 # ---- Assets ----
 extra_css:

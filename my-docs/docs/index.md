@@ -409,15 +409,23 @@ html.home-page .md-content {
   background-color: transparent !important;
 }
 
+/* Hide the dark/light mode toggle on the home page */
+html.home-page .md-header__button.md-icon[aria-label*="mode"],
+html.home-page .md-header__button[title*="mode"] {
+  display: none !important;
+  visibility: hidden !important;
+}
+
+
 </style>
 
 <!-- ==================== HERO ==================== -->
 <div class="home-hero">
   <h2>
-    <span class="float-word">DEVELOPERS</span>
+    <span class="float-word">DEVELOPER</span>
     <span class="float-word">LAB</span>
   </h2>
-  <h3 style="font-size: 1rem; line-height: 1.5; font-weight: 500; color: #c5efff;">
+  <h3 style="font-size: 1rem; line-height: 1.5; font-weight: 500; color: #ffffffff;">
     Exploring the future of code, cloud, and AI through practical modules and continuous learning, curated by
     <a class="stelios-link" href="https://www.linkedin.com/in/stelios-sotiriadis/" target="_blank" rel="noopener noreferrer">Stelios</a>.
   </h3>

@@ -108,26 +108,29 @@
   }
 
   // ---------- Boot ----------
-  function init() {
-    ensureDocks();
+function init() {
+  ensureDocks();
 
-    // Default to both menus OPEN
-    if (FORCE_OPEN_ON_LOAD) {
-      localStorage.setItem("hideLeft", "0");
-      localStorage.setItem("hideRight", "1");
-    } else {
-      // If keys don't exist yet, initialize as open
-      if (localStorage.getItem("hideLeft") === null)  localStorage.setItem("hideLeft", "0");
-      if (localStorage.getItem("hideRight") === null) localStorage.setItem("hideRight", "0");
-    }
-
-    // Apply state
-    document.body.classList.toggle("hide-left",  localStorage.getItem("hideLeft")  === "1");
-    document.body.classList.toggle("hide-right", localStorage.getItem("hideRight") === "1");
-
-    syncLabels();
-    updateFab();
+  // Default to both menus OPEN
+  if (FORCE_OPEN_ON_LOAD) {
+    localStorage.setItem("hideLeft", "0");
+    localStorage.setItem("hideRight", "1");
+  } else {
+    if (localStorage.getItem("hideLeft") === null)  localStorage.setItem("hideLeft", "0");
+    if (localStorage.getItem("hideRight") === null) localStorage.setItem("hideRight", "0");
   }
+
+  // Apply state
+  document.body.classList.toggle("hide-left",  localStorage.getItem("hideLeft")  === "1");
+  document.body.classList.toggle("hide-right", localStorage.getItem("hideRight") === "1");
+
+  /* 🔹 ADD THIS — ensures font scale is applied every time */
+  document.documentElement.style.setProperty("--user-font-scale", S.scale);
+
+  // existing lines
+  syncLabels();
+  updateFab();
+}
 
   document.addEventListener("DOMContentLoaded", init);
   window.addEventListener("load", updateFab);
