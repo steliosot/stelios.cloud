@@ -74,7 +74,7 @@
       const dockR = document.createElement("div");
       dockR.className = "bottom-controls";
       dockR.innerHTML = `
-        <button type="button" class="ctrl btn-right" title="Hide right TOC" aria-pressed="false">
+        <button type="button" class="ctrl btn-right" title="Hide right menu" aria-pressed="false">
           <span class="material-symbols-outlined">menu_open</span>
         </button>
         <button type="button" class="ctrl btn-dec" title="Decrease text size">
@@ -98,12 +98,12 @@
     if (left) {
       const icon = left.querySelector(".material-symbols-outlined");
       icon.textContent = S.hideLeft ? "menu" : "menu_open";
-      left.title = S.hideLeft ? "Show left menu" : "Hide left menu";
+      left.title = S.hideLeft ? "Show menu" : "Hide menu";
     }
     if (right) {
       const icon = right.querySelector(".material-symbols-outlined");
       icon.textContent = S.hideRight ? "menu" : "menu_open";
-      right.title = S.hideRight ? "Show right TOC" : "Hide right TOC";
+      right.title = S.hideRight ? "Show table of contents" : "Hide table of contents";
     }
   }
 
@@ -114,7 +114,7 @@
     // Default to both menus OPEN
     if (FORCE_OPEN_ON_LOAD) {
       localStorage.setItem("hideLeft", "0");
-      localStorage.setItem("hideRight", "0");
+      localStorage.setItem("hideRight", "1");
     } else {
       // If keys don't exist yet, initialize as open
       if (localStorage.getItem("hideLeft") === null)  localStorage.setItem("hideLeft", "0");

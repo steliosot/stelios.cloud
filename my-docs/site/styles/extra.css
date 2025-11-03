@@ -171,6 +171,34 @@ html:not(.home-page) .md-footer a:hover {
   font-display: swap;
 }
 
+/* Keyframes for float motion */
+@keyframes floatLetter {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-1.5px); }
+}
+
+/* Site name split into letters that float */
+.md-header__title .md-ellipsis span {
+  display: inline-block;
+  font-family: "Vorcas", sans-serif !important;
+  color: #f2f6a0 !important;
+  animation: floatLetter 4s ease-in-out infinite;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.3);
+}
+
+/* Slightly randomize timing per group */
+.md-header__title .md-ellipsis span:nth-child(1),
+.md-header__title .md-ellipsis span:nth-child(2),
+.md-header__title .md-ellipsis span:nth-child(3) {
+  animation-delay: 0s;
+}
+.md-header__title .md-ellipsis span:nth-child(4),
+.md-header__title .md-ellipsis span:nth-child(5),
+.md-header__title .md-ellipsis span:nth-child(6) {
+  animation-delay: 1.2s;
+}
+
+
 /* make the site title clickable */
 .md-header__title .md-ellipsis {
   cursor: pointer;
@@ -191,4 +219,68 @@ html:not(.home-page) .md-footer a:hover {
   font-family: "Vorcas", ui-sans-serif, system-ui, -apple-system,
                "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans",
                sans-serif !important;
+}
+
+/* === Keep Table of Contents in default Material font === */
+.md-sidebar--secondary,
+.md-nav--secondary,
+.md-nav--secondary * {
+  font-family: var(--md-text-font, "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif) !important;
+  font-weight: 400 !important;
+  letter-spacing: normal !important;
+}
+.brand-ch {
+  display: inline-block;
+  animation: brandFloat 4s ease-in-out infinite;
+  animation-delay: calc(var(--i) * 80ms);
+}
+
+@keyframes brandFloat {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-3px); }
+}
+
+/* === Global Search Bar Styling (all pages) === */
+
+/* === Global Search Bar Styling (all pages) === */
+.md-search__form {
+  background: rgba(255,255,255,.05) !important;
+  border-radius: 16px !important;
+  border: none !important;
+  overflow: hidden;
+}
+
+/* Input and icon size adjustments */
+.md-search__input {
+  color: #000 !important; /* black text */
+  font-size: 0.7rem !important;
+  line-height: 1.4 !important;
+  border-radius: 16px !important;
+  
+}
+
+/* placeholder ("Search") text */
+.md-search__input::placeholder {
+  color: #1b052f !important;   /* black placeholder text */
+  opacity: 0.7;             /* optional – makes it slightly softer */
+}
+
+/* search icon */
+.md-search__icon {
+  color: #1b052f !important;   /* black icon */
+  transform: scale(0.7);
+  transform-origin: center;
+}
+
+/* padding */
+.md-search__inner {
+  padding: 0.2rem 1rem !important;
+}
+
+/* Prevent repaint flicker on fixed bottom controls */
+.bottom-controls,
+.bottom-controls-left {
+  will-change: transform;
+  transform: translateZ(0);
+  backface-visibility: hidden;
 }
