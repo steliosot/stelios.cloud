@@ -1,4 +1,4 @@
-site_name: Developer Lab
+site_name: DevLab
 
 theme:
   name: material
@@ -7,22 +7,59 @@ theme:
   features:
     - navigation.tabs
     - navigation.tabs.sticky
+    - content.code.copy        # copy button on code blocks
+    - navigation.top           # quick back-to-top
+    - navigation.footer        # nicer prev/next footer
 
+# ---- Assets ----
 extra_css:
-  - styles/global-font.css
   - styles/header-bg.css
-  - styles/hero.css
-  - styles/extra.css        # <- LAST so it wins
+  - styles/extra.css            # keep last-ish so it can win
+  - styles/font-size.css        # font zoom buttons
+extra_javascript:
+  - styles/font-size.js
+  - styles/controls.js
+  - styles/fab-footer-avoid.js  
 
-# Remove if not needed (it can interfere with classes/selectors)
-# extra_javascript:
-#   - styles/home-toggle.js
+# ---- Plugins ----
+plugins:
+  - search
 
+# ---- Markdown extensions required by your pages ----
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details            # collapsible sections
+  - pymdownx.superfences        # fenced code features
+  - pymdownx.highlight:
+      anchor_linenums: true
+      linenums: false
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.emoji:
+      emoji_generator: !!python/name:pymdownx.emoji.to_svg
+
+# ---- Navigation ----
 nav:
   - Home: index.md
   - Cloud Computing:
       - Welcome: cloud-computing/welcome.md
-      - Unit 1: cloud-computing/unit-1.md
+      - Unit 1:
+          - Overview: cloud-computing/unit-1/index.md
+          - Notes: cloud-computing/unit-1/notes.md
+          - Lab:
+              - Part 1: cloud-computing/unit-1/lab/part-1.md
+              - Part 2: cloud-computing/unit-1/lab/part-2.md
+              - Part 3: cloud-computing/unit-1/lab/part-3.md
       - Unit 2: cloud-computing/unit-2.md
       - Unit 3: cloud-computing/unit-3.md
       - Unit 4: cloud-computing/unit-4.md

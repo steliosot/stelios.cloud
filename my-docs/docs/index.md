@@ -167,17 +167,16 @@ html.home-page::after {
   z-index: -3;
   pointer-events: none;
   background:
-    /* NEW: bottom-left vignette to pop hero text */
     radial-gradient(900px 600px at 14% 82%,
       rgba(0,0,0,0.70) 0%,
       rgba(0,0,0,0.60) 35%,
       rgba(0,0,0,0.30) 60%,
       rgba(0,0,0,0.00) 100%),
-    /* Existing: darken the bright right side */
     linear-gradient(to right,
       rgba(0,0,0,0.00) 40%,
       rgba(0,0,0,0.75) 100%);
 }
+
 /* Particles */
 canvas.particle-layer {
   position: fixed;
@@ -199,24 +198,47 @@ html.home-page .home-hero {
 /* Floating title animation */
 @keyframes floatWord {
   0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-3px); }
+  50% { transform: translateY(-5px); }
 }
+
+@font-face {
+  font-family: "Vorcas";
+  src:
+    url("/assets/fonts/Vorcas.woff2") format("woff2"),
+    url("/assets/fonts/Vorcas.woff") format("woff");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 html.home-page .float-word {
   display: inline-block;
   animation: floatWord 5s ease-in-out infinite;
+  font-family: 'Vorcas', sans-serif !important;
+  font-size: 1.8rem !important;
+  color: #f2f6a0 !important;
 }
+
+
 html.home-page .float-word:nth-child(1){animation-delay:0s;}
 html.home-page .float-word:nth-child(2){animation-delay:.9s;}
 html.home-page .float-word:nth-child(3){animation-delay:1.8s;}
 html.home-page .float-word:nth-child(4){animation-delay:.5s;}
 
-/* Title */
+/* Hero title */
+/* === Force Roboto font on hero title === */
+html.home-page {
+  --md-text-font: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+  --md-headline-font: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+}
+
 html.home-page .home-hero h2 {
   margin: 0 0 .5rem 0;
-  font-weight: 700;
-  font-size: 1.75rem;
+  font-family: var(--md-headline-font), sans-serif !important;
+  font-weight: 700 !important;
+  font-size: clamp(1.4rem, 2vw + 0.6rem, 1.9rem);
   color: #f2f6a0 !important;
-  text-shadow: 2 1px 4px rgba(0,0,0,0.4);
+  text-shadow: 2px 1px 4px rgba(0, 0, 0, 0.4);
 }
 
 /* Subheading */
@@ -235,26 +257,26 @@ html.home-page .home-hero a {
 }
 html.home-page .home-hero a:hover { color: #14b8a6 !important; }
 
-/* === Buttons === */
+/* Buttons */
 html.home-page .home-hero .buttons {
   margin-top: 1.75rem;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-=
+  font-size: 0.8rem;
+
 }
 
 /* Get Started */
 html.home-page .home-hero .buttons a:first-child {
-  background: oklch(27.7% 0.046 192.524 / 0.95);
+  background: oklch(27.7% 0.046 192.524 / 0.5);
   color: #fff;
   border: none;
   border-radius: 8px;
   padding: .45rem .95rem;
-  font-weight: 700;
+  font-weight: 500;
   transition: all .3s ease;
-  
 }
 html.home-page .home-hero .buttons a:first-child:hover {
   background: #121827 !important;
@@ -269,7 +291,7 @@ html.home-page .home-hero .buttons a:last-child {
   border: 2px solid oklch(27.7% 0.046 192.524 / 0.95);
   border-radius: 8px;
   padding: .45rem .95rem;
-  font-weight: 700;
+  font-weight: 500;
   transition: all .3s ease;
 }
 html.home-page .home-hero .buttons a:last-child:hover {
@@ -300,18 +322,79 @@ html.home-page .home-hero .buttons a:last-child:hover {
 }
 .ship-light.one { right: 5vw; bottom: 7vh; }
 .ship-light.two { right: 6.5vw; bottom: 5.5vh; animation-delay: .35s; opacity: .85; }
-.ship-light.three { right: 2vw; top: 2vh; animation-delay: .35s; opacity: .1;  animation-duration: 3s; }
+.ship-light.three { right: 2vw; top: 2vh; animation-delay: .35s; opacity: .1; animation-duration: 3s; }
 
 html.home-page .md-footer { display: none !important; }
+
+/* === Hide footer & floating controls on home page === */
+/* === Hide footer + bottom controls on the home page === */
+html.home-page .md-footer,
+html.home-page .bottom-controls,
+html.home-page .bottom-controls-left {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  pointer-events: none !important;
+}
+
+/* === Mobile tweaks (phones) === */
+@media (max-width: 640px) {
+  html.home-page .home-hero{
+    left: 1rem;
+    right: 1rem;          /* keep content away from edges */
+    bottom: 2rem;
+    max-width: none;
+  }
+
+  html.home-page .home-hero h2{
+    font-size: clamp(1.1rem, 6vw, 1.6rem);
+  }
+  html.home-page .home-hero h3{
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  html.home-page .home-hero .buttons{
+    gap: .6rem;
+  }
+  html.home-page .home-hero .buttons a{
+    padding: .4rem .8rem;
+    font-weight: 700;
+    font-size: .9rem;
+  }
+
+  /* lighter effects for small screens */
+  canvas.particle-layer{ opacity: .6; }
+  .ship-light.two, .ship-light.three{ display: none; }
+}
+
+/* ultra-small phones */
+@media (max-width: 360px){
+  html.home-page .home-hero h2{ font-size: 1.2rem; }
+  html.home-page .home-hero h3{ font-size: 0.9rem; }
+}
+
+/* === Special link for Stelios (grey 100 default, teal on hover) === */
+html.home-page .stelios-link {
+  color: #f5f5f5 !important;       /* Material Grey 100 */
+  text-decoration: none !important;
+  font-weight: 500;
+  transition: color 0.25s ease;
+}
+
+html.home-page .stelios-link:hover {
+  color: #14b8a6 !important;       /* Teal accent */
+}
+
+
 </style>
 
 <!-- ==================== HERO ==================== -->
 <div class="home-hero">
+  
   <h2>
-    <span class="float-word">Welcome</span>
-    <span class="float-word">to</span>
-    <span class="float-word">Developer's</span>
-    <span class="float-word">Lab</span>
+    <span class="float-word">DEVELOPERS</span>
+    <span class="float-word">LAB</span>
   </h2>
   <h3>
     Exploring the future of code, cloud, and AI through practical modules and continuous learning, curated by
@@ -319,8 +402,8 @@ html.home-page .md-footer { display: none !important; }
   </h3>
 
   <div class="buttons">
-    <a class="md-button" href="cloud-computing/welcome/">Get Started</a>
-    <a class="md-button" href="about/">About</a>
+    <a href="cloud-computing/welcome/">Get Started</a>
+    <a href="about/">About</a>
   </div>
 </div>
 
