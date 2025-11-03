@@ -1436,13 +1436,17 @@ html.home-page .home-hero .buttons {
   from { background-position: -150% 0; }
   to   { background-position: 150% 0; }
 }
+
 html.home-page .home-hero .buttons a:first-child {
   position: relative;
-  display: inline-block;
+  display: inline-flex;          /* changed from inline-block */
+  align-items: center;           /* vertically center text */
+  justify-content: center;       /* horizontally center text */
+  line-height: 1;                /* remove extra font leading */
   color: #fff;
   border: none;
   border-radius: 16px;
-  padding: .45rem .95rem;
+  padding: .45rem .90rem;
   font-weight: 500;
   transition: all .3s ease;
 
@@ -1471,7 +1475,7 @@ html.home-page .home-hero .buttons a:first-child:hover {
       rgba(255,255,255,0.10) 100%) 0 0 / 250% 100% no-repeat,
     oklch(27.7% 0.046 192.524 / 0.9);
   background-position: -150% 0, 0 0;
-  transform: translateY(-1px);
+  transform: translateY(-1px); /* keep hover lift */
 }
 
 /* About */
@@ -1480,15 +1484,17 @@ html.home-page .home-hero .buttons a:last-child {
   color: oklch(27.7% 0.046 192.524 / 0.95);
   border: 2px solid oklch(27.7% 0.046 192.524 / 0.95);
   border-radius: 16px;
-  padding: .45rem .95rem;
+  padding: .45rem .90rem;
   font-weight: 500;
   transition: all .3s ease;
 }
+
 html.home-page .home-hero .buttons a:last-child:hover {
-  background: #121827 !important;
+  background: oklch(27.7% 0.046 192.524 / 0.95);
   color: #e7f694ff !important;
   transform: translateY(-1px);
 }
+
 
 /* Ship lights */
 .ship-light {
@@ -1515,6 +1521,7 @@ html.home-page .home-hero .buttons a:last-child:hover {
 .ship-light.three { right: 2vw; top: 2vh; animation-delay: .35s; opacity: .1; animation-duration: 3s; }
 
 html.home-page .md-footer { display: none !important; }
+
 
 /* Hide footer & floating controls on home page */
 html.home-page .md-footer,
@@ -1554,6 +1561,11 @@ html.home-page .bottom-controls-left {
 /* Stelios link hover */
 html.home-page .stelios-link { color: #f5f5f5 !important; text-decoration: none !important; font-weight: 500; transition: color 0.25s ease; }
 html.home-page .stelios-link:hover { color: #14b8a6 !important; }
+
+html.home-page .md-content {
+  background-color: transparent !important;
+}
+
 </style>
 
 <!-- ==================== HERO ==================== -->

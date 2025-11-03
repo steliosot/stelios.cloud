@@ -119,7 +119,7 @@ html:not(.home-page) .md-footer {
   box-shadow: none !important;
   overflow: hidden;
   padding: 0 !important;
-  min-height: 3rem; /* reduce default height */
+  min-height: 2rem; /* reduce default height */
 }
 
 /* Apply background only at the bottom */
@@ -160,6 +160,18 @@ html:not(.home-page) .md-footer a {
 html:not(.home-page) .md-footer a:hover {
   color: #fff !important;
 }
+
+/* === Force smaller footer text globally === */
+html:not(.home-page) .md-footer,
+html:not(.home-page) .md-footer *,
+html:not(.home-page) .md-footer-nav__link,
+html:not(.home-page) .md-footer__inner,
+html:not(.home-page) .md-footer__title {
+  font-size: 0.65rem !important;
+  line-height: 1.3 !important;
+}
+
+
 /* === Vorcas for site name (header + drawer) === */
 @font-face {
   font-family: "Vorcas";
@@ -242,7 +254,6 @@ html:not(.home-page) .md-footer a:hover {
 
 /* === Global Search Bar Styling (all pages) === */
 
-/* === Global Search Bar Styling (all pages) === */
 .md-search__form {
   background: rgba(255,255,255,.05) !important;
   border-radius: 16px !important;
@@ -261,13 +272,13 @@ html:not(.home-page) .md-footer a:hover {
 
 /* placeholder ("Search") text */
 .md-search__input::placeholder {
-  color: #1b052f !important;   /* black placeholder text */
+  color: #ffffff !important;   /* black placeholder text */
   opacity: 0.7;             /* optional – makes it slightly softer */
 }
 
 /* search icon */
 .md-search__icon {
-  color: #1b052f !important;   /* black icon */
+  color: #ffffff !important;   /* black icon */
   transform: scale(0.7);
   transform-origin: center;
 }
@@ -283,4 +294,45 @@ html:not(.home-page) .md-footer a:hover {
   will-change: transform;
   transform: translateZ(0);
   backface-visibility: hidden;
+}
+
+/* Make only the content area light grey */
+.md-content {
+  background-color: #fafafa;
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+/* Optional: give the page a little breathing room */
+.md-main__inner {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+}
+
+/* === Inline code (`like this`) === */
+code, .md-typeset code {
+  background-color: #f3f3f3;      /* soft neutral gray for contrast */
+  color: #c7254e;                 /* subtle red tint for inline code */
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 0.9em;
+  border-radius: 4px;
+  padding: 0.15em 0.35em;
+}
+
+/* === Fenced code blocks (```...```) === */
+.md-typeset pre > code,
+.md-typeset pre {
+  background-color: #e6e8eb !important; /* darker than page, easy on eyes */
+  color: #2d2d2d;                       /* high readability on light bg */
+  font-family: "JetBrains Mono", "Fira Code", Consolas, monospace;
+  font-size: 0.95em;
+  line-height: 1.5;
+  border-radius: 6px;
+  padding: 1em 1.2em;
+  overflow-x: auto;
+}
+
+/* === Optional: subtle border for definition === */
+.md-typeset pre {
+  border: 1px solid #d8d8d8;
 }

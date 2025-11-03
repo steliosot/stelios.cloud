@@ -1,6 +1,6 @@
 (function () {
   const BASE_PX = 56;     // ~3.5rem default distance from viewport bottom
-  const MARGIN_PX = 12;   // extra breathing room above the footer
+  const MARGIN_PX = 10;   // extra breathing room above the footer
 
   function footerRect() {
     // Prefer the main footer; fall back to footer-meta if needed
