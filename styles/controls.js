@@ -3,8 +3,9 @@
   const BASE_PX = 48;
   const MARGIN_PX = 12;
   const MIN_SCALE = 0.7;   // was 0.8 → allow one more A− step
-  const MAX_SCALE = 1.4;
+  const MAX_SCALE = 10;
   const STEP = 0.05;
+  const DEFAULT_SCALE = 1;   // <- MkDocs default
 
   // Force both menus open on every load (set to false to keep persistence)
   const FORCE_OPEN_ON_LOAD = true;
@@ -29,7 +30,8 @@
   const S = {
     get scale() {
       const v = parseFloat(localStorage.getItem("fontScale"));
-      return Number.isFinite(v) ? v : 0.8;
+      // ✅ Use default MkDocs size (1.0) on first load
+      return Number.isFinite(v) ? v : DEFAULT_SCALE;
     },
     set scale(v) {
       const nv = Math.max(MIN_SCALE, Math.min(MAX_SCALE, v));
@@ -108,29 +110,34 @@
   }
 
   // ---------- Boot ----------
-function init() {
-  ensureDocks();
+  function init() {
+    ensureDocks();
 
-  // Default to both menus OPEN
-  if (FORCE_OPEN_ON_LOAD) {
-    localStorage.setItem("hideLeft", "0");
-    localStorage.setItem("hideRight", "1");
-  } else {
-    if (localStorage.getItem("hideLeft") === null)  localStorage.setItem("hideLeft", "0");
-    if (localStorage.getItem("hideRight") === null) localStorage.setItem("hideRight", "0");
+    // ✅ Ensure default font size (1.0) on first entry
+    if (localStorage.getItem("fontScale") === null) {
+      localStorage.setItem("fontScale", DEFAULT_SCALE.toString());
+    }
+
+    // Default to both menus OPEN
+    if (FORCE_OPEN_ON_LOAD) {
+      localStorage.setItem("hideLeft", "0");
+      localStorage.setItem("hideRight", "1");
+    } else {
+      if (localStorage.getItem("hideLeft") === null)  localStorage.setItem("hideLeft", "0");
+      if (localStorage.getItem("hideRight") === null) localStorage.setItem("hideRight", "0");
+    }
+
+    // Apply state
+    document.body.classList.toggle("hide-left",  localStorage.getItem("hideLeft")  === "1");
+    document.body.classList.toggle("hide-right", localStorage.getItem("hideRight") === "1");
+
+    /* 🔹 Apply font scale every time */
+    document.documentElement.style.setProperty("--user-font-scale", S.scale);
+
+    // existing lines
+    syncLabels();
+    updateFab();
   }
-
-  // Apply state
-  document.body.classList.toggle("hide-left",  localStorage.getItem("hideLeft")  === "1");
-  document.body.classList.toggle("hide-right", localStorage.getItem("hideRight") === "1");
-
-  /* 🔹 ADD THIS — ensures font scale is applied every time */
-  document.documentElement.style.setProperty("--user-font-scale", S.scale);
-
-  // existing lines
-  syncLabels();
-  updateFab();
-}
 
   document.addEventListener("DOMContentLoaded", init);
   window.addEventListener("load", updateFab);
@@ -144,7 +151,6 @@ function init() {
     });
   }
 })();
-
 
 document.addEventListener("click", e => {
   const el = e.target.closest(".md-header__title .md-ellipsis");
