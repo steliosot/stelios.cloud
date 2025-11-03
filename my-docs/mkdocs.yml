@@ -20,6 +20,7 @@ extra_javascript:
   - styles/font-size.js
   - styles/controls.js
   - styles/fab-footer-avoid.js  
+  - styles/brand-animate.js  
 
 # ---- Plugins ----
 plugins:

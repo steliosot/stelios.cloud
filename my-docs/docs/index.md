@@ -27,12 +27,12 @@ hide: [navigation, toc]
     const ctx = canvas.getContext('2d');
 
     const DPR           = Math.min(window.devicePixelRatio || 1, 2);
-    const COUNT_DESKTOP = 150;
-    const COUNT_MOBILE  = 75;
+    const COUNT_DESKTOP = 175;
+    const COUNT_MOBILE  = 50;
     const COLOR         = 'rgba(255, 255, 255, 0.28)';
     const R_MIN         = 1;
     const R_MAX         = 3;
-    const SPEED_BASE    = 0.50;
+    const SPEED_BASE    = 0.60;
     const NOISE         = 0.0135;
     const FRICTION      = 0.995;
     const MAX_SPEED     = 0.8;
@@ -118,10 +118,30 @@ hide: [navigation, toc]
       }
 
       if (burst > 0.001) burst *= BURST_DECAY; else burst = 0;
-
       requestAnimationFrame(step);
     }
     step();
+  })();
+
+  // ---------- Random flashlight sweep on "Get Started" button ----------
+  (function () {
+    function scheduleFlash(btn) {
+      const nextIn = 2000 + Math.random() * 6000; // 2–3s
+      setTimeout(() => {
+        if (!btn) return;
+        btn.classList.add('flash');
+        // run the sweep for ~700ms, then remove class
+        setTimeout(() => {
+          btn.classList.remove('flash');
+          scheduleFlash(btn); // schedule next one
+        }, 700);
+      }, nextIn);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const btn = document.querySelector('html.home-page .home-hero .buttons a:first-child');
+      if (btn) scheduleFlash(btn);
+    });
   })();
 </script>
 
@@ -135,16 +155,6 @@ html.home-page .md-tabs__list {
   background: transparent !important;
   box-shadow: none !important;
 }
-
-/* Search bar */
-html.home-page .md-search__form {
-  background: rgba(255,255,255,.15) !important;
-  border-radius: 8px !important;
-  border: none !important;
-}
-html.home-page .md-search__input,
-html.home-page .md-search__icon { color: #C4CAD1 !important; }
-html.home-page .md-search__icon { transform: scale(.5); }
 
 /* Hide auto H1 */
 html.home-page .md-content__inner h1:first-of-type {
@@ -201,6 +211,7 @@ html.home-page .home-hero {
   50% { transform: translateY(-5px); }
 }
 
+/* Vorcas font (local files) */
 @font-face {
   font-family: "Vorcas";
   src:
@@ -218,20 +229,16 @@ html.home-page .float-word {
   font-size: 1.8rem !important;
   color: #f2f6a0 !important;
 }
-
-
 html.home-page .float-word:nth-child(1){animation-delay:0s;}
 html.home-page .float-word:nth-child(2){animation-delay:.9s;}
 html.home-page .float-word:nth-child(3){animation-delay:1.8s;}
 html.home-page .float-word:nth-child(4){animation-delay:.5s;}
 
-/* Hero title */
-/* === Force Roboto font on hero title === */
+/* Hero title font */
 html.home-page {
   --md-text-font: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
   --md-headline-font: "Roboto", "Helvetica Neue", Helvetica, Arial, sans-serif !important;
 }
-
 html.home-page .home-hero h2 {
   margin: 0 0 .5rem 0;
   font-family: var(--md-headline-font), sans-serif !important;
@@ -252,35 +259,61 @@ html.home-page .home-hero h3 {
 
 /* Stelios link */
 html.home-page .home-hero a {
-  color: #fff !important;
+  color: #b0d2ddff !important;
   text-decoration: none !important;
 }
-html.home-page .home-hero a:hover { color: #14b8a6 !important; }
+html.home-page .home-hero a:hover { color: #ffffffff !important; }
 
-/* Buttons */
+/* Buttons wrapper */
 html.home-page .home-hero .buttons {
   margin-top: 1.75rem;
   display: flex;
   gap: 1rem;
   flex-wrap: wrap;
   text-shadow: 0 1px 4px rgba(0,0,0,0.4);
-  font-size: 0.8rem;
-
+  font-size: 0.7rem;
 }
 
-/* Get Started */
+/* === Get Started (with internal flashlight sweep) === */
+@keyframes sweep {
+  from { background-position: -150% 0; }
+  to   { background-position: 150% 0; }
+}
 html.home-page .home-hero .buttons a:first-child {
-  background: oklch(27.7% 0.046 192.524 / 0.5);
+  position: relative;
+  display: inline-block;
   color: #fff;
   border: none;
-  border-radius: 8px;
+  border-radius: 16px;
   padding: .45rem .95rem;
   font-weight: 500;
   transition: all .3s ease;
+
+  /* base fill + beam (stopped off-canvas by default) */
+  background:
+    linear-gradient(120deg,
+      rgba(255,255,255,0.00) 0%,
+      rgba(255,255,255,0.25) 50%,
+      rgba(255,255,255,0.00) 100%) 0 0 / 250% 100% no-repeat,
+    oklch(27.7% 0.046 192.524 / 0.5);
+  background-position: -150% 0, 0 0;
+  overflow: hidden;
 }
+
+/* Flash class triggers a quick sweep */
+html.home-page .home-hero .buttons a:first-child.flash {
+  animation: sweep 0.7s ease-out forwards;
+}
+
+/* Hover state (stronger fill, immediate sweep restart) */
 html.home-page .home-hero .buttons a:first-child:hover {
-  background: #121827 !important;
-  color: #e7f694ff !important;
+  background:
+    linear-gradient(120deg,
+      rgba(255,255,255,0.10) 0%,
+      rgba(255,255,255,0.40) 50%,
+      rgba(255,255,255,0.10) 100%) 0 0 / 250% 100% no-repeat,
+    oklch(27.7% 0.046 192.524 / 0.9);
+  background-position: -150% 0, 0 0;
   transform: translateY(-1px);
 }
 
@@ -289,7 +322,7 @@ html.home-page .home-hero .buttons a:last-child {
   background: transparent;
   color: oklch(27.7% 0.046 192.524 / 0.95);
   border: 2px solid oklch(27.7% 0.046 192.524 / 0.95);
-  border-radius: 8px;
+  border-radius: 16px;
   padding: .45rem .95rem;
   font-weight: 500;
   transition: all .3s ease;
@@ -326,8 +359,7 @@ html.home-page .home-hero .buttons a:last-child:hover {
 
 html.home-page .md-footer { display: none !important; }
 
-/* === Hide footer & floating controls on home page === */
-/* === Hide footer + bottom controls on the home page === */
+/* Hide footer & floating controls on home page */
 html.home-page .md-footer,
 html.home-page .bottom-controls,
 html.home-page .bottom-controls-left {
@@ -341,29 +373,17 @@ html.home-page .bottom-controls-left {
 @media (max-width: 640px) {
   html.home-page .home-hero{
     left: 1rem;
-    right: 1rem;          /* keep content away from edges */
+    right: 1rem;
     bottom: 2rem;
     max-width: none;
   }
 
-  html.home-page .home-hero h2{
-    font-size: clamp(1.1rem, 6vw, 1.6rem);
-  }
-  html.home-page .home-hero h3{
-    font-size: 0.95rem;
-    line-height: 1.45;
-  }
+  html.home-page .home-hero h2{ font-size: clamp(1.1rem, 6vw, 1.6rem); }
+  html.home-page .home-hero h3{ font-size: 0.95rem; line-height: 1.45; }
 
-  html.home-page .home-hero .buttons{
-    gap: .6rem;
-  }
-  html.home-page .home-hero .buttons a{
-    padding: .4rem .8rem;
-    font-weight: 700;
-    font-size: .9rem;
-  }
+  html.home-page .home-hero .buttons{ gap: .6rem; }
+  html.home-page .home-hero .buttons a{ padding: .4rem .8rem; font-weight: 700; font-size: .9rem; }
 
-  /* lighter effects for small screens */
   canvas.particle-layer{ opacity: .6; }
   .ship-light.two, .ship-light.three{ display: none; }
 }
@@ -374,31 +394,20 @@ html.home-page .bottom-controls-left {
   html.home-page .home-hero h3{ font-size: 0.9rem; }
 }
 
-/* === Special link for Stelios (grey 100 default, teal on hover) === */
-html.home-page .stelios-link {
-  color: #f5f5f5 !important;       /* Material Grey 100 */
-  text-decoration: none !important;
-  font-weight: 500;
-  transition: color 0.25s ease;
-}
-
-html.home-page .stelios-link:hover {
-  color: #14b8a6 !important;       /* Teal accent */
-}
-
-
+/* Stelios link hover */
+html.home-page .stelios-link { color: #f5f5f5 !important; text-decoration: none !important; font-weight: 500; transition: color 0.25s ease; }
+html.home-page .stelios-link:hover { color: #14b8a6 !important; }
 </style>
 
 <!-- ==================== HERO ==================== -->
 <div class="home-hero">
-  
   <h2>
     <span class="float-word">DEVELOPERS</span>
     <span class="float-word">LAB</span>
   </h2>
-  <h3>
+  <h3 style="font-size: 1rem; line-height: 1.5; font-weight: 500; color: #c5efff;">
     Exploring the future of code, cloud, and AI through practical modules and continuous learning, curated by
-    <a href="https://www.linkedin.com/in/stelios-sotiriadis/" target="_blank" rel="noopener noreferrer">Stelios</a>.
+    <a class="stelios-link" href="https://www.linkedin.com/in/stelios-sotiriadis/" target="_blank" rel="noopener noreferrer">Stelios</a>.
   </h3>
 
   <div class="buttons">
