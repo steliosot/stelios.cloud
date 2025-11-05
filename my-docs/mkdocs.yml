@@ -4,6 +4,8 @@ theme:
   name: material
   logo: assets/logo-stelios.png
   favicon: assets/logo-stelios.png
+  icon:
+    annotation: material/star-four-points-circle
   features:
     - navigation.tabs
     - navigation.tabs.sticky
@@ -41,10 +43,14 @@ extra_javascript:
   - styles/controls.js
   - styles/fab-footer-avoid.js  
   - styles/brand-animate.js  
+  - styles/termynal.js
 
 # ---- Plugins ----
 plugins:
   - search
+  - termynal
+  
+
 
 # ---- Markdown extensions required by your pages ----
 markdown_extensions:
@@ -85,7 +91,10 @@ nav:
       - Unit 3: cloud-computing/unit-3.md
       - Unit 4: cloud-computing/unit-4.md
       - Unit 5: cloud-computing/unit-5.md
-      - Unit 6: cloud-computing/unit-6.md
+      - Unit 6: 
+        - Overview: cloud-computing/unit-6/index.md
+        - Notes: cloud-computing/unit-6/notes.md
+        - Lab: cloud-computing/unit-6/lab.md
       - Unit 7: cloud-computing/unit-7.md
       - Unit 8: cloud-computing/unit-8.md
       - Unit 9: cloud-computing/unit-9.md

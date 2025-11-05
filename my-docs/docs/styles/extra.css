@@ -307,7 +307,7 @@ html:not(.home-page) .md-footer__title {
 /* =========================================== */
 
 :root {
-  --user-font-scale: 1 !important; /* ensure scale starts at 1 */
+  --user-font-scale: 1; /* ensure scale starts at 1 */
 }
 
 /* make all typeset areas use Material’s real default (0.8rem) */
@@ -321,4 +321,35 @@ html:not(.home-page) .md-footer__title {
 .md-sidebar,
 .md-footer {
   font-size: 0.8rem !important;
+}
+
+/* Make embedded PDF fill the visible viewport */
+/* Fit PDF to the visible content area (the "middle" column) */
+/* ==== Slight zoom-in effect for the embedded Google Drive PDF ==== */
+
+.pdf-embed {
+  position: relative;
+  width: 100%;
+  height: calc(80vh - 200px); /* adjust for header/footer spacing */
+  overflow: hidden;
+  background: #000;
+  border-radius: 6px;
+}
+
+/* Zoom in the iframe content slightly */
+.pdf-embed > iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  transform: scale(1.1);          /* 1.1 = 110% zoom */
+  transform-origin: center center;/* keeps it centered */
+}
+
+/* Optional: center navigation buttons */
+.md-content .md-button {
+  display: inline-block;
+  margin: 1rem 0.25rem;
+  text-align: center;
 }
