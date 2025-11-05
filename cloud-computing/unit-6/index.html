@@ -12,7 +12,7 @@
         <link rel="prev" href="../unit-5/">
       
       
-        <link rel="next" href="../unit-7/">
+        <link rel="next" href="notes/">
       
       
       <link rel="icon" href="../../assets/logo-stelios.png">
@@ -20,7 +20,7 @@
     
     
       
-        <title>Unit 6 - DevLab</title>
+        <title>Overview - DevLab</title>
       
     
     
@@ -30,6 +30,12 @@
         <link rel="stylesheet" href="../../assets/stylesheets/palette.06af60db.min.css">
       
       
+
+  
+  
+  
+  
+  <style>:root{--md-annotation-icon:url('data:image/svg+xml;charset=utf-8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%2024%2024%22%3E%3Cpath%20d%3D%22M8.17%202.76A10.1%2010.1%200%200%201%2012%202c1.31%200%202.61.26%203.83.76%201.21.5%202.31%201.24%203.24%202.17s1.67%202.03%202.17%203.24c.5%201.22.76%202.52.76%203.83%200%202.65-1.05%205.2-2.93%207.07A9.97%209.97%200%200%201%2012%2022a10.1%2010.1%200%200%201-3.83-.76%2010%2010%200%200%201-3.24-2.17A9.97%209.97%200%200%201%202%2012c0-2.65%201.05-5.2%202.93-7.07.93-.93%202.03-1.67%203.24-2.17M12%2017l1.56-3.42L17%2012l-3.44-1.56L12%207l-1.57%203.44L7%2012l3.43%201.58z%22/%3E%3C/svg%3E');}</style>
 
 
     
@@ -51,6 +57,8 @@
       <link rel="stylesheet" href="../../styles/extra.css">
     
       <link rel="stylesheet" href="../../styles/font-size.css">
+    
+      <link rel="stylesheet" href="../../termynal.css">
     
     <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
@@ -78,7 +86,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#unit-6" class="md-skip">
+        <a href="#unit-6-orchestration-with-kubernetes" class="md-skip">
           Skip to content
         </a>
       
@@ -113,7 +121,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Unit 6
+              Overview
             
           </span>
         </div>
@@ -722,16 +730,23 @@
   
   
   
-    <li class="md-nav__item md-nav__item--active">
+    
+    
+    
+    
       
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
       
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
       
         
-      
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
         
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2_7" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_2_7" id="__nav_2_7_label" tabindex="0">
+            
   
   
   <span class="md-ellipsis">
@@ -740,7 +755,165 @@
   </span>
   
 
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="2" aria-labelledby="__nav_2_7_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2_7">
+            <span class="md-nav__icon md-icon"></span>
+            Unit 6
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    Overview
+    
+  </span>
+  
+
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📘 Key Topics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Learning Outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-6-deploying-on-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Lab 6 — Deploying on Kubernetes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="notes/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Notes
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="lab/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    Lab
+    
+  </span>
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
       
     </li>
   
@@ -1189,6 +1362,50 @@
     
   
   
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#overview" class="md-nav__link">
+    <span class="md-ellipsis">
+      🎯 Overview
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#key-topics" class="md-nav__link">
+    <span class="md-ellipsis">
+      📘 Key Topics
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#learning-outcomes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧩 Learning Outcomes
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#lab-6-deploying-on-kubernetes" class="md-nav__link">
+    <span class="md-ellipsis">
+      🧪 Lab 6 — Deploying on Kubernetes
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
 </nav>
                   </div>
                 </div>
@@ -1203,7 +1420,51 @@
 
 
 
-<h1 id="unit-6">Unit 6<a class="headerlink" href="#unit-6" title="Permanent link">&para;</a></h1>
+<h1 id="unit-6-orchestration-with-kubernetes">Unit 6 — Orchestration with Kubernetes<a class="headerlink" href="#unit-6-orchestration-with-kubernetes" title="Permanent link">&para;</a></h1>
+<h2 id="overview">🎯 Overview<a class="headerlink" href="#overview" title="Permanent link">&para;</a></h2>
+<p>This unit introduces <strong>cloud orchestration</strong> and demonstrates how platforms like <strong>Kubernetes</strong> automate the deployment, scaling, and management of containerised applications.</p>
+<p>Students explore how orchestration differs from automation, understand how modern distributed systems are built using <strong>containers</strong>, and learn how Kubernetes provides scalability, reliability, and self-healing across cloud environments.</p>
+<p>The lecture explains the shift from traditional monolithic applications to <strong>cloud-native architectures</strong>, where resources are dynamically managed through declarative configuration files and orchestration layers.</p>
+<hr />
+<h2 id="key-topics">📘 Key Topics<a class="headerlink" href="#key-topics" title="Permanent link">&para;</a></h2>
+<ul>
+<li>Automation vs. orchestration  </li>
+<li>The role of containers in cloud computing  </li>
+<li>The evolution from Docker to Kubernetes  </li>
+<li>Kubernetes architecture and components:</li>
+<li>Pods, Nodes, ReplicaSets, Deployments  </li>
+<li>Kubelet, Scheduler, Controller Manager, API Server  </li>
+<li>Declarative configuration with YAML manifests  </li>
+<li>Services and Load Balancing  </li>
+<li>Cluster creation and management using <strong>Google Kubernetes Engine (GKE)</strong>  </li>
+<li>Rolling updates and scaling strategies  </li>
+</ul>
+<hr />
+<h2 id="learning-outcomes">🧩 Learning Outcomes<a class="headerlink" href="#learning-outcomes" title="Permanent link">&para;</a></h2>
+<p>By the end of this unit, students will be able to:</p>
+<ol>
+<li>Explain the purpose and benefits of orchestration in cloud environments.  </li>
+<li>Describe the architecture and key components of Kubernetes.  </li>
+<li>Deploy and manage containerised applications on a Kubernetes cluster.  </li>
+<li>Use declarative YAML configuration files to define deployments and services.  </li>
+<li>Implement horizontal scaling and load balancing for distributed applications.  </li>
+<li>Apply update strategies (e.g., rolling updates) to manage application versions safely.  </li>
+<li>Demonstrate good practices in managing cloud resources and cost efficiency.  </li>
+</ol>
+<hr />
+<h2 id="lab-6-deploying-on-kubernetes">🧪 Lab 6 — Deploying on Kubernetes<a class="headerlink" href="#lab-6-deploying-on-kubernetes" title="Permanent link">&para;</a></h2>
+<p>In this lab, students:</p>
+<ol>
+<li>Build and push a simple Node.js application image to <strong>Docker Hub</strong>.  </li>
+<li>Create and connect to a <strong>Kubernetes cluster</strong> using <strong>Google Kubernetes Engine (GKE)</strong>.  </li>
+<li>Deploy their image as a <strong>Kubernetes Deployment</strong> with multiple replicas.  </li>
+<li>Expose the deployment through a <strong>LoadBalancer Service</strong> to obtain a public IP.  </li>
+<li>Scale the deployment horizontally to handle increased traffic.  </li>
+<li>Perform a <strong>rolling update</strong> by deploying a new image version (<code>mini-hi:2</code>).  </li>
+<li>Validate the update and clean up resources by deleting the cluster.  </li>
+</ol>
+<p>Through this lab, students gain practical experience with <strong>container orchestration, scalability, and cloud deployment pipelines</strong>, reflecting modern DevOps workflows.</p>
+<hr />
 
 
 
@@ -1256,13 +1517,13 @@
         
         
           
-          <a href="../unit-7/" class="md-footer__link md-footer__link--next" aria-label="Next: Unit 7">
+          <a href="notes/" class="md-footer__link md-footer__link--next" aria-label="Next: Notes">
             <div class="md-footer__title">
               <span class="md-footer__direction">
                 Next
               </span>
               <div class="md-ellipsis">
-                Unit 7
+                Notes
               </div>
             </div>
             <div class="md-footer__button md-icon">
@@ -1310,6 +1571,10 @@
         <script src="../../styles/fab-footer-avoid.js"></script>
       
         <script src="../../styles/brand-animate.js"></script>
+      
+        <script src="../../styles/termynal.js"></script>
+      
+        <script src="../../termynal.js"></script>
       
     
   </body>
